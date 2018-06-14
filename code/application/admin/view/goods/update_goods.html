@@ -1,0 +1,104 @@
+{layout name="layout" /}
+<form role="form" onsubmit="return false">
+    <input hidden type="text" name="id" value="{$data.id}">
+    <div class="form-group">
+        <label>
+            <span style="color:red;">*</span>商品名称</label>
+        <input class="form-control" type="text" name="name" value="{$data.name}">
+    </div>
+    <div class="form-group">
+        <label>
+            <span style="color:red;">*</span>商品价格</label>
+        <input class="form-control" type="number" step="0.1" min="0" name="price" value="{$data.price}">
+    </div>
+    <div class="form-group">
+        <label>
+            <span style="color:red;">*</span>入市时间</label>
+        <input class="form-control" type="date" name="add_time" value="{$data.add_time}">
+    </div>
+    <div class="form-group">
+        <label>
+            <span style="color:red;">*</span>商品品牌</label>
+        <input class="form-control" type="text" name="brand" value="{$data.brand}">
+    </div>
+    <div class="form-group">
+        <label>
+            <span style="color:red;">*</span>商品等级</label>
+        <input class="form-control" type="text" name="level" value="{$data.level}">
+    </div>
+    <div class="form-group">
+        <label>
+            <span style="color:red">*</span>商品型号</label>
+        <input class="form-control" type="text" name="model" value="{$data.model}">
+    </div>
+    <div class="form-group">
+        <label>
+            <span style="color:red">*</span>商品类型</label>
+        <select class="form-control" name="type_id">
+            <option value="">未选</option>
+            {volist name="typelist" id="vo"}
+            <option value="{$vo.id}" {$vo.id==$data.type_id?'selected':''}> {$vo.type} </option>
+            {/volist}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>
+            <span style="color:red;">*</span>图片路径(仅支持网络图片)</label>
+        <input class="form-control" type="text" name="pic_path" value="{$data.pic_path}">
+    </div>
+    <div class="form-group">
+        <label>
+            <span style="color:red;">*</span>商品数量</label>
+        <input class="form-control" type="text" name="count" value="{$data.count}">
+    </div>
+    <div class="form-group">
+        <label>
+            <span style="color:red;">*</span>会员价</label>
+        <input class="form-control" type="text" name="vip_price" value="{$data.vip_price}">
+    </div>
+    <div class="form-group">
+        <label>
+            <span style="color:red;">*</span>市场价</label>
+        <input class="form-control" type="text" name="market_price" value="{$data.market_price}">
+    </div>
+    <button onclick="check()" class="btn btn-default">更新</button>
+    <button type="reset" class="btn btn-default">重置</button>
+</form>
+<script src="__JS__/jquery.js"></script>
+<script>
+    var node = document.getElementById("main-menu").children[1];
+    node.children[0].setAttribute("class", "active-menu");
+    node.children[1].children[1].setAttribute("class", "active-menu");
+    $("input,select").css("border-width", "2px");
+
+    function check() {
+        var flag = true;
+        $("input,select").each(function () {
+            $(this).parent().attr("class", "form-group");
+            if ($(this).val() == '') {
+                $(this).parent().addClass("has-error");
+                flag = false;
+            } else {
+                $(this).parent().addClass("has-success");
+            }
+        });
+        $.ajax({
+            url: "{:url('Goods/doUpdateGoods')}",
+            type: "post",
+            dataType: "json",
+            data: $("form").serialize(),
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("error" + XMLHttpRequest.readyState + " " + XMLHttpRequest.status +
+                    " " + textStatus);
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.status == "success") {
+                    layer.alert("商品修改成功", function () {
+                        location.href = "{:url('Goods/listGoods')}";
+                    })
+                }
+            }
+        });
+    }
+</script>

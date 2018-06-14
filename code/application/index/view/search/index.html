@@ -1,0 +1,44 @@
+{layout name="layout" /}
+
+<div class="nav"></div>
+<div class="ads">
+	<img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1010120849,2385584534&fm=15&gp=0.jpg" alt="广告图">
+</div>
+<div class="nav"></div>
+<div class="floorHeader">
+	<div class="left">
+		<span>您搜索的商品</span>
+	</div>
+	<div class="right">
+		<span>
+			<a href="">更多推荐</a>
+		</span>
+	</div>
+</div>
+
+<div class="floor">
+		<div class="floorFooter">
+{volist name="list" id="vo" key="k"} 
+		<a href="{:url('Goods/index')}?id={$vo.id}" title="{$vo.name}">
+			<div class="shop">
+				<div class="shopImg">
+					<img src="{$vo.pic_path}" alt="{$vo.name}">
+				</div>
+				<div class="nav"></div>
+				<div class="shopInfo">
+					<p class="shopName">{$vo.name}</p>
+					<span class="shopPrice">{$vo.price}</span>
+				</div>
+			</div>
+		</a>
+
+		{if condition='$k!=0 && $k%4==0 || $k==count($list)'}
+	</div>
+</div>
+{/if}
+
+{if condition='$k!=0 && $k%4==0 &&$k!=count($list)'}
+<div class="floor">
+	<div class="floorFooter">
+{/if}
+{/volist} {$list->render()}

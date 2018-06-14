@@ -1,0 +1,89 @@
+{layout name="layout" /}
+<form role="form" onsubmit="return false">
+    <div id="old" class="form-group">
+        <label>原密码</label>
+        <input class="form-control" type="password">
+    </div>
+    <div id="new" class="form-group">
+        <label>新密码</label>
+        <input class="form-control" type="password">
+    </div>
+    <div id="renew" class="form-group">
+        <label>确认新密码</label>
+        <input class="form-control" type="password">
+    </div>
+    <button onclick="check()" class="btn btn-default">提交修改</button>
+    <button type="reset" class="btn btn-default">重置</button>
+</form>
+<div id="tip"></div>
+<script src="__JS__/md5.js"></script>
+<script>
+    document.getElementById("home").setAttribute("class", "active-menu");
+
+    function check() {
+        var flag = 0;
+        var old = $("#old>input").val();
+        var newp = $("#new>input").val();
+        var renewp = $("#renew>input").val();
+        $("#old").attr("class", "form-group");
+        $("#new").attr("class", "form-group");
+        $("#renew").attr("class", "form-group");
+        $("#tip").empty();
+        if (old == "") {
+            $("#old").addClass("has-error");
+            flag = 1;
+        }
+        if (newp == "") {
+            $("#new").addClass("has-error");
+            flag = 1;
+        }
+        if (renewp == "") {
+            $("#renew").addClass("has-error");
+            flag = 1;
+        }
+        if (newp != renewp) {
+            $("#renew").addClass("has-error");
+            $("#new").addClass("has-error");
+            flag = 2;
+        }
+        if (flag == 1) {
+            var tip =
+                '<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>请填写完整</strong></div>';
+            $("#tip").html(tip);
+        } else if (flag == 2) {
+            var tip =
+                '<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>密码输入不一致</strong></div>';
+            $("#tip").html(tip);
+        } else {
+            $.ajax({
+                url: "{:url('Home/updatePassword')}",
+                type: "post",
+                dataType: "json",
+                data: {
+                    old: hex_md5(old),
+                    new: hex_md5(newp)
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("error" + XMLHttpRequest.readyState + " " + XMLHttpRequest.status +
+                        " " + textStatus);
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == "success") {
+                        layer.alert("密码修改成功",function(){
+                            location.href = "{:url('Home/index')}";
+                        });
+                    } else if (data.status == "old error") {
+                        $("#old").addClass("has-error");
+                        var tip =
+                            '<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>原密码错误</strong></div>';
+                        $("#tip").html(tip);
+                    } else {
+                        layer.alert("其他错误，请联系管理员");
+                    }
+                }
+            });
+        }
+
+    }
+</script>

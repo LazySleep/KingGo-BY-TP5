@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登陆</title>
+</head>
+
+<body>
+    <form id="regform" role="form" onsubmit="return false" style="margin: 20px;">
+        <div class="form-group">
+            <label>用户名</label>
+            <input name="name" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label>真实姓名</label>
+            <input name="true_name" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label>QQ</label>
+            <input name="qq" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input name="email" class="form-control" type="email">
+        </div>
+        <div class="form-group">
+            <label>身份证号</label>
+            <input name="idcard" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label>地址</label>
+            <input name="address" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label>邮编</label>
+            <input name="postal" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label>电话号码</label>
+            <input name="tel" class="form-control" type="tel">
+        </div>
+        <div class="form-group">
+            <label>找回密码提示</label>
+            <input name="find_password_tip" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label>找回密码答案</label>
+            <input name="find_password_ans" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label>密码</label>
+            <input name="password" class="form-control" type="password">
+        </div>
+        <div class="form-group">
+            <label>重复输入密码</label>
+            <input name="repassword" class="form-control" type="password">
+        </div>
+        <div class="form-group">
+            <button onclick="checkReg()" class="btn btn-primary" style="width: 100%;">提交注册</button>
+        </div>
+    </form>
+    <script src="__JS__/md5.js"></script>
+    <script type="text/javascript">
+        function checkReg() {
+            var flag = true;
+            $("#regform input").each(function () {
+                $(this).parent().attr("class", "form-group");
+                if ($(this).val() == '') {
+                    $(this).parent().addClass("has-error");
+                    flag = false;
+                } else {
+                    $(this).parent().addClass("has-success");
+                }
+            });
+            if (flag) {
+                $("input[name='password']").val(hex_md5($("input[name='password']").val()));
+                $("input[name='repassword']").val(hex_md5($("input[name='repassword']").val()));
+                $.ajax({
+                    url: "{:url('Index/doRegister')}",
+                    data: $("#regform").serialize(),
+                    dataType: "json",
+                    type: "post",
+                    success: function (data) {
+                        if (data.status == "success") {
+                            layer.alert("注册成功！", function () {
+                                layer.closeAll();
+                                window.parent.showLayer("{:url('Index/login')}", '420px', '580px');
+                            });
+                        } else {
+                            if(data.status == "nameexist"){
+                                $("input[name='name']").parent().attr("class", "form-group has-error");
+                            }
+                            layer.alert(data.msg);
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

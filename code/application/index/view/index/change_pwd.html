@@ -1,0 +1,75 @@
+<form id="changeform" role="form" onsubmit="return false" style="margin: 20px;">
+    <div id="tip" class="form-group">
+        <label>{$tip}</label>
+        <input class="form-control" type="text">
+    </div>
+    <div id="old" class="form-group">
+        <label>原密码</label>
+        <input class="form-control" type="password">
+    </div>
+    <div id="new" class="form-group">
+        <label>新密码</label>
+        <input class="form-control" type="password">
+    </div>
+    <div id="renew" class="form-group">
+        <label>确认新密码</label>
+        <input class="form-control" type="password">
+    </div>
+    <button onclick="checkchangeform()" class="btn btn-primary" style="width:100%;">提交修改</button>
+</form>
+<script src="__JS__/md5.js"></script>
+<script>
+    function checkchangeform() {
+        var flag = true;
+        $("#changeform input").each(function () {
+            $(this).parent().attr("class", "form-group");
+            if ($(this).val() == '') {
+                $(this).parent().addClass("has-error");
+                flag = false;
+            } else {
+                $(this).parent().addClass("has-success");
+            }
+        });
+        var old = $("#old>input").val();
+        var newp = $("#new>input").val();
+        var renewp = $("#renew>input").val();
+        if (newp != renewp) {
+            $("#renew").attr("class", "form-group has-error");
+            $("#new").attr("class", "form-group has-error");
+            flag = false;
+        }
+        if (flag) {
+            $.ajax({
+                url: "{:url('Index/doChangePwd')}",
+                type: "post",
+                dataType: "json",
+                data: {
+                    old: hex_md5(old),
+                    new: hex_md5(newp),
+                    ans: $("#tip input").val()
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("error" + XMLHttpRequest.readyState + " " + XMLHttpRequest.status +
+                        " " + textStatus);
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == "success") {
+                        layer.alert("密码修改成功", function () {
+                            layer.closeAll();
+                        });
+                    } else if (data.status == "old error") {
+                        $("#old").attr("class", "form-group has-error");
+                        layer.alert("原密码错误");
+                    } else if (data.status == "ans error") {
+                        $("#tip").attr("class", "form-group has-error");
+                        layer.alert("问题回答错误");
+                    } else {
+                        layer.alert(data.msg);
+                    }
+                }
+            });
+        }
+
+    }
+</script>

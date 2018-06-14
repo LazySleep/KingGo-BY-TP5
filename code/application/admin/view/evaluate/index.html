@@ -1,0 +1,68 @@
+{layout name="layout" /}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        用户留言
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover " style="text-align: center;">
+                <thead>
+                    <tr class="row">
+                        <td class="col-md-1">用户姓名</td>
+                        <td class="col-md-1">评论商品名</td>
+                        <td class="col-md-1">标题</td>
+                        <td class="col-md-6">内容</td>
+                        <td class="col-md-2">留言时间</td>
+                        <td class="col-md-1">删除</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {volist name="list" id="vo" key="k"}
+                    <tr class="{($k%2?'odd':'even')} row">
+                        <td class="col-md-1">{$vo.user_name}</td>
+                        <td class="col-md-1">{$vo.goods_name}</td>
+                        <td class="col-md-1">{$vo.title}</td>
+                        <td class="col-md-7">{$vo.content}</td>
+                        <td class="col-md-2">{$vo.time}</td>
+                        <td class="col-md-1">
+                            <a href="javascript:del({$vo.id})" class="fa fa-trash-o"></a>
+                        </td>
+                    </tr>
+                    {/volist}
+                </tbody>
+            </table>
+            {$list->render()}
+        </div>
+
+    </div>
+</div>
+<script>
+    document.getElementById("main-menu").children[4].setAttribute("class", "active-menu");
+
+    function del(id) {
+        layer.confirm('您确定要删除这条数据吗？', {
+            btn: ['确定', '取消']
+        }, function () {
+            layer.closeAll('dialog');
+            $.ajax({
+                url: "{:url('Evaluate/doDelete')}",
+                type: "post",
+                dataType: "json",
+                data: {
+                    "id": id
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("error" + XMLHttpRequest.readyState + " " + XMLHttpRequest.status +
+                        " " + textStatus);
+                },
+                success: function (data) {
+                    if (data.status == "success") {
+                        layer.alert("删除成功", function () {
+                            location.reload();
+                        });
+                    }
+                }
+            });
+        });
+    }
+</script>

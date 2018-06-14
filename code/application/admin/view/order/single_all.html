@@ -1,0 +1,60 @@
+<div class="panel panel-default">
+    <div class="panel-heading" style="text-align: center;">
+        商品订单
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <form onsubmit="return false">
+                <table class="table table-striped table-bordered table-hover ">
+                    <tbody>
+                        <tr>
+                            <td>订单号</td>
+                            <td colspan="2">{$list.no}</td>
+                            <td>订单状态</td>
+                            <td colspan="2">{$list.status}</td>
+                        </tr>
+                        <tr>
+                            <td>购买商品</td>
+                            <td colspan="5">{$list.goods_string}</td>
+                        </tr>
+                        <tr>
+                            <td>下单人</td>
+                            <td>{$list.pay_name}</td>
+                            <td>订货人</td>
+                            <td>{$list.client_name}</td>
+                            <td>付款方式</td>
+                            <td>{$list.pay_way}</td>
+                        </tr>
+                        <tr>
+                            <td>收货方式</td>
+                            <td>{$list.receive_way}</td>
+                            <td>收货地址</td>
+                            <td colspan="3">{$list.address}</td>
+                        </tr>
+                        <tr>
+                            <td>电话号码</td>
+                            <td>{$list.tel}</td>
+                            <td>邮箱</td>
+                            <td>{$list.email}</td>
+                            <td>邮政编码</td>
+                            <td>{$list.postal}</td>
+                        </tr>
+                        <tr>
+                            <td>用户留言</td>
+                            <td colspan="5">{$list.leaveword}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="font-weight: bold;text-align: right;">
+                    <span>总价：</span>
+                    <span style="color: red;">{$list.total}元</span>
+                </p>
+
+                <p style="text-align: right;">
+                    创建时间：{$list.time}
+
+                </p>
+            </form>
+        </div>
+    </div>
+</div>

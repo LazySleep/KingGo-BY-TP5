@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>后台登陆系统</title>
+    <link rel="stylesheet" href="__CSS__/admin/login.css">
+</head>
+
+<body>
+    <div class="bg">
+        <div class="green"></div>
+        <div class="white"></div>
+    </div>
+    <div class="login">
+        <div class="login-left">
+            <form>
+                <input id="account" name="account" class="edit-text input" type="text" value="请输入您的用户名" onfocus="inputonfocus(this,'请输入您的用户名','text')" onblur="inputonblur(this,'请输入您的用户名','text')">
+                <p id="account-tip">
+                    <img src="__IMG__/admin/error.png" width="12px" style="vertical-align:-2px;">请输入已验证手机/邮箱</p>
+                <input id="password" name="password" class="edit-text input" type="text" value="请输入密码" onfocus="inputonfocus(this,'请输入密码','password')"
+                    onblur="inputonblur(this,'请输入密码','password')">
+                <p id="password-tip">
+                    <img src="__IMG__/admin/error.png" width="12px" style="vertical-align:-2px;">请输入密码</p>
+                <p id="forget-key">
+                    <a href="{:url('Index/register')}" style="color: #00B38a;">注册新用户</a>&nbsp;
+                </p>
+                <input class="commit input" name="commit" type="button" onclick="check('{:url('Index/doLogin')}','{:url('Home/index')}')" value="登&nbsp&nbsp录">
+            </form>
+        </div>
+        <img class="division" src="__IMG__/admin/divider-login.jpg">
+        <div class="login-right">
+            <p style="color:rgb(126,126,126); font-size:15px; font-weight:550;"> 使用以下账号直接登录:</p>
+            <div class="login-other">
+                <img src="__IMG__/admin/login_icon-sina.png">
+                <img src="__IMG__/admin/login_icon-tecent.png">
+                <img src="__IMG__/admin/login_icon-wechat.png">
+            </div>
+            <div style="margin:20px 60px 0px 60px;line-height: 0;">
+                <img src="__IMG__/admin/login_qrcode.jpg " width="150px">
+                <span style="font-size:12px; margin: 35px; color:rgb(126,126,126); ">
+                    [扫码下载APP]
+                </span>
+            </div>
+        </div>
+    </div>
+    <script src="__JS__/jquery.js"></script>
+    <script src="__JS__/md5.js"></script>
+    <script src="__JS__/admin/login.js"></script>
+    <!-- layer JS -->
+    <script src="__STATIC__/layer/layer.js"></script>
+</body>
+
+</html>

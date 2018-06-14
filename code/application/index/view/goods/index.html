@@ -1,0 +1,99 @@
+{layout name="layout" /}
+
+<div class="nav"></div>
+<div class="ads">
+	<img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1010120849,2385584534&fm=15&gp=0.jpg" alt="广告图">
+</div>
+<div class="nav"></div>
+<div class="floorHeader">
+	<div class="left">
+		<span>商品详情</span>
+	</div>
+</div>
+
+<div class="floor">
+	<div class="floorFooter" style="padding:0 100px;">
+		<div class="gsleft">
+			<img src="{$data.pic_path}" alt="{$data.name}">
+		</div>
+		<div class="gsright">
+			<p style="font-size: 18px;">{$data.name}</p>
+			<p style="color: #FF0036;">vip单价:
+				<span style="font-size: 1.5em;">{$data.vip_price}</span> 元</p>
+			<p style="color:#FF4400;">单价:
+				<span style="font-size: 1.5em;">{$data.price}</span>元</p>
+			<p>品牌: {$data.brand}</p>
+			<p>型号: {$data.model}</p>
+			<p>等级: {$data.level}</p>
+			<p>
+				<span>库存: {$data.count}</span>
+				<span>销量: {$data.sell_count}</span>
+			</p>
+			<p>上市时间: {$data.add_time}</p>
+			<div style="margin-top: 30px;">
+				<button class="btn btn-danger" style="width: 40%;" onclick="buy({$data.id})">立即购买</button>
+				<button class="btn btn-warning" style="margin-left: 20px;width: 40%;" onclick="addCar({$data.id})">加入购物车</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="nav" style="clear: both;margin-top: 20px;"></div>
+<div class="floorHeader">
+	<div class="left">
+		<span>买家评论</span>
+	</div>
+</div>
+
+<div style="margin-top: 20px;">
+	{php}if(count($evaluate)==0){{/php}
+	<p style="text-align: center;"> 暂无评论 </p>
+	{php}}else{ {/php} {volist name="evaluate" id="vo"}
+	<div class="evaluate">
+		<p>
+			<img src="__IMG__/index/def_head.png">
+			<span style="font-weight: bold;">用户:</span>
+			<span>{$vo.user_name}</span>
+			<span style="font-weight: bold; margin-left:15px;">标题:</span>
+			<span>{$vo.title}</span>
+		</p>
+		<div id="content" style="padding: 15px 15px 15px 58px;">
+			{$vo.content}
+		</div>
+		<p>
+			<img style="width:22px;height: 22px;" src="__IMG__/index/time.png">
+			<span>{$vo.time}</span>
+		</p>
+		
+	</div>
+	<hr>
+	{/volist} {php}}{/php}
+</div>
+
+<script>
+	function addCar(id) {
+		var list = $.cookie('car');
+		if (list == null || list == ""|| list == "[]") {
+			var obj = new Array();
+		} else {
+			var obj = JSON.parse(list);
+		}
+		var i;
+		for (i = 0; i < obj.length; i++) {
+			if (obj[i][0] == id) {
+				obj[i][1] = obj[i][1]+1;
+				break;
+			}
+		}
+		if (i == obj.length) {
+			obj.push(new Array(id, 1));
+		}
+		$.cookie('car', JSON.stringify(obj), { expires: 30, path: '/' });
+		layer.alert("已加入购物车");
+	}
+
+	function buy(id) {
+		addCar(id);
+		window.open("{:url('ShoppingCar/index')}");
+	}
+</script>

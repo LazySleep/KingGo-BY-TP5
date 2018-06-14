@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>KingGo</title>
+    <link rel="stylesheet" href="__CSS__/index/index.css">
+    <!-- Bootstrap Styles-->
+    <link href="__STATIC__/admin_layout_assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="__STATIC__/admin_layout_assets/css/font-awesome.css" rel="stylesheet" />
+    <script src="__JS__/jquery.js"></script>
+    <script src="__JS__/jquery.cookie.js"></script>
+    <script src="__STATIC__/layer/layer.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="header">
+            <div class="headerLogo">
+                <a href="">
+                    <img src="__IMG__/index/logo.png" alt="">
+                </a>
+            </div>
+            <div class="headerLeft">
+                <span>KingGo</span>
+            </div>
+
+            <div class="headerRight">
+                <a href="{:url('Index/index')}">首页</a>
+
+                <a href="{:url('ShoppingCar/index')}">购物车</a>
+                {php} $name = \think\Session::get('name'); $isAdmin = \think\Session::get('isAdmin'); if($name != null&&$isAdmin==null ){ {/php}
+                <div class="btn-group">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        {php}echo $name;{/php}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="{:url('ShoppingCar/orderList')}">我的订单</a>
+                        </li>
+                        <li>
+                            <a href="javascript:showLayer('{:url('Index/changeInfo')}','420px','580px')">修改个人信息</a>
+                        </li>
+                        <li>
+                            <a href="javascript:showLayer('{:url('Index/changePwd')}','420px','580px')">修改密码</a>
+                        </li>
+                        <li>
+                            <a href="javascript:showLayer('{:url('Index/leaveword')}','420px','680px')">给我们留言</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{:url('Index/logout')}">退出登陆</a>
+                        </li>
+                    </ul>
+                </div>
+                {php} }else{ {/php}
+                <a href="javascript:showLayer('{:url('Index/login')}','420px','580px')">登录</a>
+                <a href="javascript:showLayer('{:url('Index/register')}','420px','880px')">注册</a>; {php} } {/php}
+
+            </div>
+
+            <form class="headerRight form-inline" action="{:url('Search/index')}">
+                <input name="keyword" type="text" placeholder="商品搜索" class="form-control" style="padding: 2px 6px;height: 50%;">
+                <button type="submit" style="padding: 1px 12px;" class="btn btn-default">搜索</button>
+            </form>
+        </div>
+        {__CONTENT__}
+        <div class="footer">
+            <ul>
+                <li>
+                    <a href="#">关于我们</a>
+                </li>
+                <li>
+                    <a href="#">联系我们</a>
+                </li>
+                <li>
+                    <a href="#">产品中心</a>
+                </li>
+                <li>
+                    <a href="#">公司地图</a>
+                </li>
+            </ul>
+            <p style="clear: left;text-align: center;line-height: 1em;color: black;">闽ICP备18011770号</p>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        function showLayer(u, width, height) {
+            $.ajax({
+                url: u,
+                type: "get",
+                success: function (data) {
+                    layer.open({
+                        type: 1,
+                        skin: 'layui-layer-rim', //加上边框
+                        area: [width, height], //宽高
+                        content: data
+                    });
+                }
+            });
+        }
+    </script>
+    <!-- Bootstrap Js -->
+    <script src="__STATIC__/admin_layout_assets/js/bootstrap.min.js"></script>
+</body>
+
+</html>

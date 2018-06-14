@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登陆</title>
+</head>
+
+<body>
+    <form id="changeinform" role="form" onsubmit="return false" style="margin: 20px;">
+        <div class="form-group">
+            <label>QQ</label>
+            <input name="qq" class="form-control" type="text" value="{$data.qq}">
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input name="email" class="form-control" type="email" value="{$data.email}">
+        </div>
+        <div class="form-group">
+            <label>地址</label>
+            <input name="address" class="form-control" type="text" value="{$data.address}">
+        </div>
+        <div class="form-group">
+            <label>邮编</label>
+            <input name="postal" class="form-control" type="text" value="{$data.postal}">
+        </div>
+        <div class="form-group">
+            <label>电话号码</label>
+            <input name="tel" class="form-control" type="tel" value="{$data.tel}">
+        </div>
+        <div class="form-group">
+            <button onclick="checkchangeinfo()" class="btn btn-primary" style="width: 100%;">提交修改</button>
+        </div>
+    </form>
+    <script src="__JS__/md5.js"></script>
+    <script type="text/javascript">
+
+        function checkchangeinfo() {
+            var flag = true;
+            $("#changeinform input").each(function () {
+                $(this).parent().attr("class", "form-group");
+                if ($(this).val() == '') {
+                    $(this).parent().addClass("has-error");
+                    flag = false;
+                } else {
+                    $(this).parent().addClass("has-success");
+                }
+            });
+            if (flag) {
+                $.ajax({
+                    url: "{:url('Index/doChangeInfo')}",
+                    data: $("#changeinform").serialize(),
+                    dataType: "json",
+                    type: "post",
+                    success: function (data) {
+                        if (data.status == "success") {
+                            layer.alert("修改成功！", function () {
+                                layer.closeAll();
+                            });
+                        } else {
+                            layer.alert(data.msg);
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

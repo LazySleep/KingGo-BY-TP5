@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>后台管理界面</title>
+    <!-- Bootstrap Styles-->
+    <link href="__STATIC__/admin_layout_assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="__STATIC__/admin_layout_assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- Morris Chart Styles-->
+    <link href="__STATIC__/admin_layout_assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="__STATIC__/admin_layout_assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{:url('Home/index')}">
+                    <i class="fa fa-gear"></i>
+                    <strong>后台管理界面</strong>
+                </a>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <span>{$Think.Session.name}</span>
+                        <i class="fa fa-user fa-fw"></i>
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li>
+                            <a>
+                                <i class="fa fa-user fa-fw"></i> {$Think.Session.name}</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{:url('Home/changePwd')}">
+                                <i class="fa fa-gear fa-fw"></i> 修改密码</a>
+                        </li>
+                        <li>
+                            <a href="{:url('Home/logout')}">
+                                <i class="fa fa-sign-out fa-fw"></i> 退出登录</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+        </nav>
+        <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <a id="home" href="{:url('Home/index')}">
+                            <i class="fa fa-home"></i> 首页</a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-qrcode"></i> 商品管理
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{:url('Goods/addGoods')}">添加商品</a>
+                            </li>
+                            <li>
+                                <a href="{:url('Goods/listGoods')}">查看/修改商品</a>
+                            </li>
+                            <li>
+                                <a href="{:url('Goods/addType')}">添加商品类别</a>
+                            </li>
+                            <li>
+                                <a href="{:url('Goods/type')}">商品类别管理</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-sitemap"></i> 订单管理
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{:url('Order/editOrder')}">编辑订单</a>
+                            </li>
+                            <li>
+                                <a href="{:url('Order/queryOrder')}">查询订单</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-table"></i> 用户管理
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{:url('User/info')}">用户信息管理</a>
+                            </li>
+                            <li>
+                                <a href="{:url('User/leaveWord')}">用户留言管理</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{:url('Evaluate/index')}">
+                            <i class="fa fa-envelope"></i> 评论管理</a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+                {__CONTENT__}
+            </div>
+            <!-- /. PAGE WRAPPER  -->
+        </div>
+        <!-- /. WRAPPER  -->
+        <!-- JS Scripts-->
+        <!-- jQuery Js -->
+        <script src="__STATIC__/admin_layout_assets/js/jquery-1.10.2.js"></script>
+        <!-- Bootstrap Js -->
+        <script src="__STATIC__/admin_layout_assets/js/bootstrap.min.js"></script>
+
+        <!-- Metis Menu Js -->
+        <script src="__STATIC__/admin_layout_assets/js/jquery.metisMenu.js"></script>
+        <!-- Morris Chart Js -->
+        <script src="__STATIC__/admin_layout_assets/js/morris/raphael-2.1.0.min.js"></script>
+        <script src="__STATIC__/admin_layout_assets/js/morris/morris.js"></script>
+
+        <!-- layer JS -->
+        <script src="__STATIC__/layer/layer.js"></script>
+
+        <script src="__STATIC__/admin_layout_assets/js/easypiechart.js"></script>
+        <script src="__STATIC__/admin_layout_assets/js/easypiechart-data.js"></script>
+
+        <script src="__STATIC__/admin_layout_assets/js/Lightweight-Chart/jquery.chart.js"></script>
+
+        <!-- Custom Js -->
+        <script src="__STATIC__/admin_layout_assets/js/custom-scripts.js"></script>
+
+    </div>
+
+</body>
+
+</html>

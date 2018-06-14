@@ -1,0 +1,53 @@
+<form id="leaveform" role="form" onsubmit="return false" style="margin: 20px;">
+    <div class="form-group">
+        <input name="title" class="form-control" type="text" placeholder="标题">
+    </div>
+    <div class="form-group">
+        <textarea name="content" class="form-control" rows="10" placeholder="请输入留言内容,不要少于15个字" style="resize: none;"></textarea>
+    </div>
+    <div class="form-group">
+        <label>验证码</label>
+        <input name="verifyCode" class="form-control" type="text">
+        <a href="javascript:changeCaptcha()">
+            <img id="yzm" src="{:captcha_src()}" />
+        </a>
+    </div>
+    <button onclick="checkchangeform()" class="btn btn-primary" style="width:100%;">回复</button>
+</form>
+<script src="__JS__/md5.js"></script>
+<script>
+    function changeCaptcha() {
+        $("#yzm").attr("src", "{:captcha_src()}");
+    }
+
+    function checkchangeform() {
+        var title = $("input[name='title']");
+        var content = $("textarea[name='content']");
+        if (content.val().length < 15 || title.val() == "") {
+            layer.alert("请确认是否按要求填写正确");
+            changeCaptcha();
+        } else {
+            $.ajax({
+                url: "{:url('Index/doLeaveword')}",
+                type: "post",
+                dataType: "json",
+                data: $("#leaveform").serialize(),
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("error" + XMLHttpRequest.readyState + " " + XMLHttpRequest.status +
+                        " " + textStatus);
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == "success") {
+                        layer.alert("留言成功", function () {
+                            layer.closeAll();
+                        })
+                    } else {
+                        layer.alert(data.msg)
+                    }
+                }
+            });
+        }
+
+    }
+</script>

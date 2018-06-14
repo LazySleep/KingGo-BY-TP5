@@ -1,0 +1,26 @@
+{layout name="layout" /}
+<form role="form" onsubmit="return check()" method="GET" action="{:url('Order/editOrder')}">
+    <div class="form-group">
+        <label>
+            <span style="color:red;">*</span>关键字查询</label>
+        <input id="key" class="form-control" style="border-width: 2px;" type="text" name="key">
+    </div>
+    <button type="submit" class="btn btn-default">查询</button>
+    <button type="reset" class="btn btn-default">重置</button>
+</form>
+<script>
+    var node = document.getElementById("main-menu").children[2];
+    node.children[0].setAttribute("class", "active-menu");
+    node.children[1].children[1].setAttribute("class", "active-menu");
+
+    function check() {
+        $("#key").parent().attr("class", "form-group");
+        if ($("#key").val() == "") {
+            $("#key").parent().addClass("has-error");
+            return false;
+        } else {
+            $("#key").parent().addClass("has-success");
+            return true;           
+        }
+    }
+</script>

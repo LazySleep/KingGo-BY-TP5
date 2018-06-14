@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>后台管理员账户注册</title>
+    <link rel="stylesheet" href="__CSS__/admin/register.css">
+</head>
+
+<body style="background:url('__IMG__/admin/mr_basicbg.png'); background-color:#32C2CD;">
+    <div class="main">
+        <img id="head" class="head" src="__IMG__/admin/default_headpic.png" style="border-radius: 100%">
+        <p class="basic-info">基本信息</p>
+        <form>
+            <input id="account" name="account" class="input" type="text" value="请输入您的用户名" onfocus="inputonfocus(this,'请输入您的用户名','text')" onblur="inputonblur(this,'请输入您的用户名','text')">
+            <input id="password" name="password" class="input" type="text" value="请输入密码" onfocus="inputonfocus(this,'请输入密码','password')" onblur="inputonblur(this,'请输入密码','password')">
+            <input id="repassword" name="repassword" class="input" type="text" value="请重复输入密码" onfocus="inputonfocus(this,'请重复输入密码','password')" onblur="inputonblur(this,'请重复输入密码','password')">
+            <input class="input" type="button" onclick="check('{:url('Index/index')}')" style="background: #00b38a;color:white;padding: 0;" value="注&nbsp;&nbsp;册">
+        </form>
+    </div>
+    <script src="__JS__/jquery.js"></script>
+    <script src="__JS__/md5.js"></script>
+    <script src="__JS__/admin/register.js"></script>
+    <!-- layer JS -->
+    <script src="__STATIC__/layer/layer.js"></script>
+</body>
+
+</html>

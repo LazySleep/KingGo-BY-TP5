@@ -1,0 +1,85 @@
+{layout name="layout" /}
+<div class="nav"></div>
+<div class="ads">
+	<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528652590676&di=e05c07e5bd67c14c943b91f46f7a2a62&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2Fcdbf6c81800a19d8d7698e0131fa828ba61e464f.jpg"
+	    alt="">
+</div>
+<div class="nav"></div>
+<div id="content">
+</div>
+<div class="nav"></div>
+<div class="ads">
+	<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1528652590671&di=a00ca049643ff434133001d36aaf59e4&imgtype=0&src=http%3A%2F%2Fimg.doooor.com%2Fimg%2Fforum%2F201601%2F24%2F120036yj2xr2p4m0brrv2r.jpg"
+	    alt="">
+</div>
+<div class="nav"></div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		randData("电器", 4);
+		randData("电脑", 4);
+		randData("服饰", 4);
+	});
+
+	function refreshShop(type, obj) {
+		$.ajax({
+			url: "{:url('Goods/randData')}?type=" + type + "&length=4",
+			dataType: "json",
+			type: "post",
+			success: function (data) {
+				if (data.status == "success") {
+					data = $.parseJSON(data.data);
+					var floorFooter = $(obj).parents("div.floor").children(".floorFooter");
+					floorFooter.empty();
+					data.forEach(element => {
+						floorFooter.append(getShopSingle(element));
+					});
+				} else {
+					console.log("refreshShop(" + type + "); error");
+				}
+			}
+		});
+	}
+
+	function randData(type, length) {
+		$.ajax({
+			url: "{:url('Goods/randData')}?type=" + type + "&length=" + length,
+			dataType: "json",
+			type: "post",
+			success: function (data) {
+				if (data.status == "success") {
+					data = $.parseJSON(data.data);
+					drawFloor(type, data);
+				} else {
+					console.log("randData(" + type + ", " + length + "); error");
+				}
+			}
+		});
+	}
+
+	function drawFloor(type, jsonArr) {
+		var floorHeader = $("<div></div>").addClass("floorHeader");
+		var headLeft = $('<div></div>').addClass("left").append($("<span></span>").text(type));
+		var headRight = $('<div></div>').addClass("right").append($("<span>热销产品&nbsp;&nbsp;</span>"));
+		headRight.append($("<span></span>").append($("<a href='javascript:void(0);'></a>").attr("onclick", "refreshShop('" +
+			type + "',this)").html("换一批 <i class='fa fa-refresh'></i>")));
+		floorHeader.append(headLeft).append(headRight);
+		var floorFooter = $("<div></div>").addClass("floorFooter");
+		jsonArr.forEach(element => {
+			floorFooter.append(getShopSingle(element));
+		});
+		var floor = $("<div></div>").addClass("floor").append(floorHeader).append(floorFooter);
+		$("#content").append(floor);
+	}
+
+	function getShopSingle(data) {
+		var shop = $("<div></div>").addClass("shop");
+		var img = $("<img>").attr("src", data.pic_path).attr("alt", data.name);
+		var shopImg = $("<div></div>").addClass("shopImg").append(img);
+		var shopInfo = $("<div></div>").addClass("shopInfo");
+		var shopName = $("<p></p>").addClass("shopName").text(data.name);
+		var shopPrice = $("<span></span>").addClass("shopPrice").html("<i class='fa fa-rmb'></i>" + data.price);
+		shopInfo.append(shopName).append(shopPrice);
+		shop.append(shopImg).append($("<div></div>").addClass("nav")).append(shopInfo);
+		return $("<a></a>").attr("href", "{:url('Goods/index')}?id="+data.id).attr("title", data.name).append(shop);
+	}
+</script>
